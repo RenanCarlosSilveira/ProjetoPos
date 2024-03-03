@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="webjars/bootstrap/5.3.3/css/bootstrap.min.css"
+	rel="stylesheet">
+<script src="webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+<script src="webjars/popper.js/2.11.7/umd/popper.min.js"></script>
+<title>Market</title>
+<nav th:replace="~{fragments/outsideHeader :: header}">
+	<span>replace</span>
+</nav>
+</head>
+<body>
+	<br />
+	<div
+		style="width: 80%; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-evenly; align-items: center; margin-left: 10%; margin-right: 10%;">
+		<div class="card" style="width: 12rem;">
+			<img src="images/no-image.png" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Nome Produto</h5>
+				<p class="card-text">Descrição Produto</p>
+				<p class="card-text">Valor Produto</p>
+				<a href="#" class="btn btn-primary">+ Carrinho</a>
+			</div>
+		</div>
+		<div class="card" style="width: 12rem;">
+			<img src="images/no-image.png" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Nome Produto</h5>
+				<p class="card-text">Descrição Produto</p>
+				<p class="card-text">Valor Produto</p>
+				<a href="#" class="btn btn-primary">+ Carrinho</a>
+			</div>
+		</div>
+		<div class="card" style="width: 12rem;">
+			<img src="images/no-image.png" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Nome Produto</h5>
+				<p class="card-text">Descrição Produto</p>
+				<p class="card-text">Valor Produto</p>
+				<a href="#" class="btn btn-primary">+ Carrinho</a>
+			</div>
+		</div>
+		<div class="card" style="width: 12rem;">
+			<img src="images/no-image.png" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Nome Produto</h5>
+				<p class="card-text">Descrição Produto</p>
+				<p class="card-text">Valor Produto</p>
+				<a href="#" class="btn btn-primary">+ Carrinho</a>
+			</div>
+		</div>
+		<div class="card" style="width: 12rem;">
+			<img src="images/no-image.png" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Nome Produto</h5>
+				<p class="card-text">Descrição Produto</p>
+				<p class="card-text">Valor Produto</p>
+				<a href="#" class="btn btn-primary">+ Carrinho</a>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<nav th:replace="~{fragments/footer :: footer}">
+			<span>replace</span>
+		</nav>
+	</footer>
+</body>
+</html>

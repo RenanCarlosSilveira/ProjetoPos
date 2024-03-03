@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="webjars/bootstrap/5.3.3/css/bootstrap.min.css"
+	rel="stylesheet">
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
+<body>
+	<nav th:replace="~{fragments/header :: header}">
+		<span>replace</span>
+	</nav>
+	<br>
+	<div class="card text-center">
+		<div class="card-header">Olá Fulano!</div>
+		<div class="card-body">
+			<h5 class="card-title"></h5>
+			<p class="card-text">Cuidado com a LGPD.</p>
+			<a href="#" class="btn btn-primary">Saiba mais</a>
+		</div>
+		<div class="card-footer text-muted">Último login: xxxxxx ${par1}</div>
+	</div>
+</body>
+<script src="webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+</html>
