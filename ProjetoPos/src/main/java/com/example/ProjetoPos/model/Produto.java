@@ -93,4 +93,8 @@ public class Produto {
 		return this.id == other.id && Objects.equals(this.nome, other.nome);
 	}
 
+	@Override
+	public String toString() {
+		return "Produto [id=" + this.id + ", nome=" + this.nome + "]";
+	}
 }

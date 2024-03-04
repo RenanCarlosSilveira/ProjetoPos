@@ -10,6 +10,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 	crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/fontawesome/css/all.min.css}" />
 <meta charset="UTF-8">
 <title>Lista de Produtos</title>
 </head>
@@ -21,40 +23,65 @@
 		style="width: 50%; display: flex; flex-direction: column; align-items: center; margin-left: 25%;">
 		<br />
 		<div>
-			<a href="/produtoForm"><button
-					type="button" class="btn btn-outline-secondary">Novo</button></a>
-			<button type="button" class="btn btn-outline-secondary">Buscar</button>
+			<div class="input-group">
+				<a href="@{/produto/produtoForm}"><button type="button"
+						class="btn btn-outline-secondary">Novo</button></a>&nbsp;&nbsp;
+				&nbsp;&nbsp; <input type="text" placeholder="Nome do produto"
+					class="form-control" id="termoBusca" aria-describedby="emailHelp">
+				&nbsp;&nbsp; <a th:href="@{/produto/produtoBusca(termo=AA)}">
+					<button class="btn btn-secondary btn-sm" id="btnBusca">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</a>
+			</div>
 		</div>
 		<br />
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">#</th>
-					<th scope="col">First</th>
-					<th scope="col">Last</th>
-					<th scope="col">Handle</th>
+					<th scope="col">Id</th>
+					<th scope="col">Nome</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Jacob</td>
-					<td>Thornton</td>
-					<td>@fat</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td colspan="2">Larry the Bird</td>
-					<td>@twitter</td>
+				<tr th:each="produto : ${produtoList}">
+					<td th:text="${produto.id}"></td>
+					<td th:text="${produto.nome}"></td>
+					<td><a th:href="@{/produto/produtoEdit(id=${produto.id})}">
+							<button class="btn btn-primary btn-sm">
+								<i class="fa-solid fa-pen-to-square"></i>
+							</button>
+					</a></td>
+					<td><a th:href="@{/produto/produtoDelete(id=${produto.id})}">
+							<button class="btn btn-danger btn-sm">
+								<i class="fa-solid fa-trash-can"></i>
+							</button>
+					</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </body>
+<th:block layout:fragment="script">
+	<script>
+		function saveParecerEstagio(produto) {
+			var url = '/produto/produtoDelete';
+			pars += '&produto=' + produto;
+			var myAjax = new Ajax.Request(url, {
+				method : 'post',
+				parameters : pars,
+				evalScripts : true,
+				asynchronous : true,
+				onSuccess : function(transport) {
+					alert("show");
+				},
+				onFailure : function(transport) {
+					alert("treta");
+				}
+			});
+		}
+	</script>
+</th:block>
 </html>
