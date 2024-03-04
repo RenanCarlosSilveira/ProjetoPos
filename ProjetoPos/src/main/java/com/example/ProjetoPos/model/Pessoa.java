@@ -1,52 +1,58 @@
 package com.example.ProjetoPos.model;
 
 import java.util.Date;
-
+import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="PERSON")
+@Table(name = "PESSOA")
 public class Pessoa {
 
-	@Id
 	private long id;
-	private String name;
-	private Date birth;
+	private String nome;
+	@DateTimeFormat(pattern = "dd/MM/yyyy") private Date nascimento;
 
-	public Pessoa() {
-	}
+	public Pessoa() {}
 
-	public Pessoa(long id, String name, Date birth) {
+	public Pessoa(final long id, final String nome, final Date nascimento) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.birth = birth;
+		this.nome = nome;
+		this.nascimento = nascimento;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	@Column(name = "nome")
+	public String getNome() {
+		return this.nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNome(final String nome) {
+		this.nome = nome;
 	}
 
-	public Date getBirth() {
-		return birth;
+	@Column(name = "nascimento")
+	public Date getNascimento() {
+		return this.nascimento;
 	}
 
-	public void setBirth(Date birth) {
-		this.birth = birth;
+	public void setNascimento(final Date nascimento) {
+		this.nascimento = nascimento;
 	}
 
 }

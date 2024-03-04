@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PessoaController {
 
 	@GetMapping("/pessoaForm")
-	public String pessoaForm(Model model) {
+	public String pessoaForm(final Model model) {
 		model.addAttribute("appName", "PEI");
 		return "/pages/pessoaForm.html";
+	}
+
+	@GetMapping("/pessoaList")
+	public String pessoaList(final Model model) {
+		model.addAttribute("appName", "PEI");
+		return "/pages/pessoaList.html";
 	}
 }
 
