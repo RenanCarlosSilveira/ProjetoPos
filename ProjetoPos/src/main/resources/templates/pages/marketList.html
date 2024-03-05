@@ -24,7 +24,9 @@
 		style="width: 80%; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-evenly; align-items: center; margin-left: 10%; margin-right: 10%;">
 		<div th:each="produto : ${produtoList}">
 			<div class="card" style="width: 12rem;">
-				<img th:src="@{/images/no-image.png}" class="card-img-top">
+				<img
+					th:src="${produto.imagem} == null ? @{/images/no-image.png} : @{'data:image/png;base64,'+${produto.imagemBase64}}"
+					class="card-img-top">
 				<div class="card-body">
 					<h5 class="card-title" th:text="${produto.nome}"></h5>
 					<hr>

@@ -24,7 +24,7 @@
 		<br />
 		<div>
 			<div class="input-group">
-				<a href="@{/produto/produtoForm}"><button type="button"
+				<a th:href="@{/produto/produtoForm}"><button type="button"
 						class="btn btn-outline-secondary">Novo</button></a>&nbsp;&nbsp;
 				&nbsp;&nbsp; <input type="text" placeholder="Nome do produto"
 					class="form-control" id="termoBusca" aria-describedby="emailHelp">
@@ -41,6 +41,8 @@
 				<tr>
 					<th scope="col">Id</th>
 					<th scope="col">Nome</th>
+					<th scope="col">Valor</th>
+					<th scope="col">Estoque</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 				</tr>
@@ -49,7 +51,9 @@
 				<tr th:each="produto : ${produtoList}">
 					<td th:text="${produto.id}"></td>
 					<td th:text="${produto.nome}"></td>
-					<td><a th:href="@{/produto/produtoEdit(id=${produto.id})}">
+					<td th:text="${produto.valor}"></td>
+					<td th:text="${produto.estoque}"></td>
+					<td><a th:href="@{/produto/produtoForm(id=${produto.id})}">
 							<button class="btn btn-primary btn-sm">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
