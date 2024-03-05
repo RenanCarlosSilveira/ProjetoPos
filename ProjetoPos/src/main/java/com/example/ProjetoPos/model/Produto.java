@@ -1,13 +1,19 @@
 package com.example.ProjetoPos.model;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "PRODUTO")
@@ -18,8 +24,10 @@ public class Produto {
 	private BigDecimal valor;
 	private Area area;
 	private long estoque;
+	private Blob imagem;
 
-	public Produto() {}
+	public Produto() {
+	}
 
 	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque) {
 		super();
@@ -29,11 +37,20 @@ public class Produto {
 		this.estoque = estoque;
 	}
 
+	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque, final Blob imagem) {
+		super();
+		this.nome = nome;
+		this.valor = valor;
+		this.area = area;
+		this.estoque = estoque;
+		this.imagem = imagem;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(final long id) {
@@ -42,7 +59,7 @@ public class Produto {
 
 	@Column(name = "nome")
 	public String getNome() {
-		return this.nome;
+		return nome;
 	}
 
 	public void setNome(final String nome) {
@@ -51,7 +68,7 @@ public class Produto {
 
 	@Column(name = "valor")
 	public BigDecimal getValor() {
-		return this.valor;
+		return valor;
 	}
 
 	public void setValor(final BigDecimal valor) {
@@ -60,7 +77,7 @@ public class Produto {
 
 	@Column(name = "estoque")
 	public long getEstoque() {
-		return this.estoque;
+		return estoque;
 	}
 
 	public void setEstoque(final long estoque) {
@@ -69,16 +86,34 @@ public class Produto {
 
 	@Column(name = "area")
 	public Area getArea() {
-		return this.area;
+		return area;
 	}
 
 	public void setArea(final Area area) {
 		this.area = area;
 	}
 
+	@Column(name = "imagem")
+	public Blob getImagem() {
+		return imagem;
+	}
+
+	@Transient
+	public String getImagemBase64() throws IOException, SQLException {
+		if (imagem != null) {
+			return Base64.getEncoder().encodeToString(imagem.getBinaryStream().readAllBytes());
+		} else {
+			return "";
+		}
+	}
+
+	public void setImagem(Blob imagem) {
+		this.imagem = imagem;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.id, this.nome);
+		return Objects.hash(id, nome);
 	}
 
 	@Override
@@ -90,7 +125,11 @@ public class Produto {
 			return false;
 		}
 		final Produto other = (Produto) obj;
-		return this.id == other.id && Objects.equals(this.nome, other.nome);
+		return id == other.id && Objects.equals(nome, other.nome);
 	}
 
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nome=" + nome + "]";
+	}
 }
