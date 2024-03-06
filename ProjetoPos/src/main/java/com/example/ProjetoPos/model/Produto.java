@@ -6,7 +6,8 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Objects;
-
+import com.example.ProjetoPos.util.ProjetoPosUtil;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class Produto {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final long id) {
@@ -59,7 +60,7 @@ public class Produto {
 
 	@Column(name = "nome")
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(final String nome) {
@@ -68,7 +69,7 @@ public class Produto {
 
 	@Column(name = "valor")
 	public BigDecimal getValor() {
-		return valor;
+		return this.valor;
 	}
 
 	public void setValor(final BigDecimal valor) {
@@ -77,7 +78,7 @@ public class Produto {
 
 	@Column(name = "estoque")
 	public long getEstoque() {
-		return estoque;
+		return this.estoque;
 	}
 
 	public void setEstoque(final long estoque) {
@@ -86,7 +87,7 @@ public class Produto {
 
 	@Column(name = "area")
 	public Area getArea() {
-		return area;
+		return this.area;
 	}
 
 	public void setArea(final Area area) {
@@ -95,25 +96,30 @@ public class Produto {
 
 	@Column(name = "imagem")
 	public Blob getImagem() {
-		return imagem;
+		return this.imagem;
+	}
+
+	public void setImagem(final Blob imagem) {
+		this.imagem = imagem;
 	}
 
 	@Transient
 	public String getImagemBase64() throws IOException, SQLException {
-		if (imagem != null) {
-			return Base64.getEncoder().encodeToString(imagem.getBinaryStream().readAllBytes());
+		if (this.imagem != null) {
+			return Base64.getEncoder().encodeToString(ProjetoPosUtil.getBytesFromBlob(this.imagem));
 		} else {
 			return "";
 		}
 	}
 
-	public void setImagem(Blob imagem) {
-		this.imagem = imagem;
+	@Transient
+	public boolean isValid() {
+		return StringUtils.isNotEmpty(this.nome) && this.estoque > 0 && this.valor != null && this.area != null;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nome);
+		return Objects.hash(this.id, this.nome);
 	}
 
 	@Override
@@ -125,11 +131,11 @@ public class Produto {
 			return false;
 		}
 		final Produto other = (Produto) obj;
-		return id == other.id && Objects.equals(nome, other.nome);
+		return this.id == other.id && Objects.equals(this.nome, other.nome);
 	}
 
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + "]";
+		return "Produto [id=" + this.id + ", nome=" + this.nome + "]";
 	}
 }
