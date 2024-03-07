@@ -20,12 +20,12 @@
 	<br>
 	<div
 		style="width: 50%; display: flex; flex-direction: column; align-items: center; margin-left: 25%;">
-		<form th:action="@{/produto/produtoSave}" th:object="${produto}"
+		<form th:action="@{/produto/produtoSave}" th:object="${produtoDTO}"
 			method="POST" id="produtoSaveForm">
 			<input type="hidden" class="form-control" id="id" th:field="*{id}">
 			<div class="input-group mb-3">
 				<img
-					th:src="${produto.imagem} == null ? @{/images/no-image.png} : @{'data:image/png;base64,'+${produto.ImagemBase64}}"
+					th:src="${produtoDTO.imagem} == null ? @{/images/no-image.png} : @{'data:image/png;base64,'+${produtoDTO.imagem}+'.jpg'}"
 					style="width: 12rem;" class="rounded mx-auto d-block">
 			</div>
 			<div class="input-group mb-3">
@@ -48,14 +48,13 @@
 					<option text="" value=""></option>
 					<option th:each="area : ${areas}" th:text="${area.nome}"
 						th:value="${area.name}"</option>
-				</select> <input type="hidden" class="form-control" id="areavalue"
-					th:field="*{area}">
+				</select>
 			</div>
 			<div class="input-group mb-3">
 				<input type="file" class="form-control"
 					aria-describedby="basic-addon1" id="imagemUpload" onchange="setValueImagem(this);"
 					required>
-				<input type="hidden" class="form-control"
+				<input type="text" class="form-control"
 					aria-describedby="basic-addon1" id="imagem" th:field="*{imagem}"
 					required>
 			</div>

@@ -1,11 +1,11 @@
 package com.example.ProjetoPos.model;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Objects;
+import com.example.ProjetoPos.model.dto.ProdutoDTO;
 import com.example.ProjetoPos.util.ProjetoPosUtil;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
@@ -22,7 +22,7 @@ public class Produto {
 
 	private long id;
 	private String nome;
-	private BigDecimal valor;
+	private long valor;
 	private Area area;
 	private long estoque;
 	private Blob imagem;
@@ -30,7 +30,7 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque) {
+	public Produto(final String nome, final long valor, final Area area, final long estoque) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
@@ -38,13 +38,14 @@ public class Produto {
 		this.estoque = estoque;
 	}
 
-	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque, final Blob imagem) {
+	public Produto(final ProdutoDTO dto) {
 		super();
-		this.nome = nome;
-		this.valor = valor;
-		this.area = area;
-		this.estoque = estoque;
-		this.imagem = imagem;
+		this.id = dto.getId();
+		this.nome = dto.getNome();
+		this.valor = dto.getValor();
+		this.area = Area.valueOf(dto.getArea());
+		this.estoque = dto.getEstoque();
+		this.imagem = StringUtils.isNotEmpty(dto.getImagem()) ? ProjetoPosUtil.getBlobFromBytes(dto.getImagem().getBytes()) : null;
 	}
 
 	@Id
@@ -68,11 +69,11 @@ public class Produto {
 	}
 
 	@Column(name = "valor")
-	public BigDecimal getValor() {
+	public long getValor() {
 		return this.valor;
 	}
 
-	public void setValor(final BigDecimal valor) {
+	public void setValor(final long valor) {
 		this.valor = valor;
 	}
 
@@ -110,11 +111,6 @@ public class Produto {
 		} else {
 			return "";
 		}
-	}
-
-	@Transient
-	public boolean isValid() {
-		return StringUtils.isNotEmpty(this.nome) && this.estoque > 0 && this.valor != null && this.area != null;
 	}
 
 	@Override

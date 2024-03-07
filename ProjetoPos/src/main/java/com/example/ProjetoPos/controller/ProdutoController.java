@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.ProjetoPos.manager.ProdutoManager;
 import com.example.ProjetoPos.model.Area;
 import com.example.ProjetoPos.model.Produto;
+import com.example.ProjetoPos.model.dto.ProdutoDTO;
 
 @Controller
 @RequestMapping("/produto")
@@ -34,26 +35,27 @@ public class ProdutoController {
 		mav.addObject("areas", Area.values());
 		if (id != null) {
 			final Produto produto = this.produtoManager.findProdutoById(id);
-			mav.addObject("produto", produto);
+			mav.addObject("produtoDTO", new ProdutoDTO(produto));
 		} else {
-			mav.addObject("produto", new Produto());
+			mav.addObject("produtoDTO", new ProdutoDTO());
 		}
 		return mav;
 	}
 
 	@PostMapping("/produtoSave")
-	public ModelAndView produtoSave(final Produto produto, final BindingResult result, final RedirectAttributes attributes)
+	public ModelAndView produtoSave(final ProdutoDTO produtoDTO, final BindingResult result, final RedirectAttributes attributes)
 			throws Exception {
-		if (!produto.isValid()) {
+		if (!produtoDTO.isValid()) {
 			return this.produtoForm(null);
 		}
 		try {
+			final Produto produto = new Produto(produtoDTO);
 			this.produtoManager.saveProduto(produto);
 			attributes.addFlashAttribute("mensagem", "Projeto salvo com sucesso!");
 		} catch (final Exception e) {
 			return this.produtoForm(null);
 		}
-		return this.produtoForm(produto.getId());
+		return this.produtoForm(null);
 
 	}
 
