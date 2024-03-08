@@ -1,12 +1,16 @@
 package com.example.ProjetoPos.model;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.Objects;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
+import com.example.ProjetoPos.model.dto.ProdutoDTO;
+import com.example.ProjetoPos.util.ProjetoPosUtil;
+
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +25,7 @@ public class Produto {
 
 	private long id;
 	private String nome;
-	private BigDecimal valor;
+	private long valor;
 	private Area area;
 	private long estoque;
 	private Blob imagem;
@@ -29,7 +33,7 @@ public class Produto {
 	public Produto() {
 	}
 
-	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque) {
+	public Produto(final String nome, final long valor, final Area area, final long estoque) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
@@ -37,13 +41,16 @@ public class Produto {
 		this.estoque = estoque;
 	}
 
-	public Produto(final String nome, final BigDecimal valor, final Area area, final long estoque, final Blob imagem) {
+	public Produto(final ProdutoDTO dto) {
 		super();
-		this.nome = nome;
-		this.valor = valor;
-		this.area = area;
-		this.estoque = estoque;
-		this.imagem = imagem;
+		id = dto.getId();
+		nome = dto.getNome();
+		valor = dto.getValor();
+		area = Area.valueOf(dto.getArea());
+		estoque = dto.getEstoque();
+		imagem = StringUtils.isNotEmpty(dto.getImagem())
+				? ProjetoPosUtil.getBlobFromBytes(Base64.decodeBase64(dto.getImagem()))
+				: null;
 	}
 
 	@Id
@@ -67,11 +74,11 @@ public class Produto {
 	}
 
 	@Column(name = "valor")
-	public BigDecimal getValor() {
+	public long getValor() {
 		return valor;
 	}
 
-	public void setValor(final BigDecimal valor) {
+	public void setValor(final long valor) {
 		this.valor = valor;
 	}
 
@@ -98,17 +105,17 @@ public class Produto {
 		return imagem;
 	}
 
+	public void setImagem(final Blob imagem) {
+		this.imagem = imagem;
+	}
+
 	@Transient
 	public String getImagemBase64() throws IOException, SQLException {
 		if (imagem != null) {
-			return Base64.getEncoder().encodeToString(imagem.getBinaryStream().readAllBytes());
+			return Base64.encodeBase64String(ProjetoPosUtil.getBytesFromBlob(imagem));
 		} else {
 			return "";
 		}
-	}
-
-	public void setImagem(Blob imagem) {
-		this.imagem = imagem;
 	}
 
 	@Override

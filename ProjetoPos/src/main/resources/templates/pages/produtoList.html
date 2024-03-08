@@ -19,24 +19,30 @@
 	<nav th:replace="~{fragments/header :: header}">
 		<span>replace</span>
 	</nav>
+	<br />
 	<div
 		style="width: 50%; display: flex; flex-direction: column; align-items: center; margin-left: 25%;">
-		<br />
-		<div>
-			<div class="input-group">
+		<nav th:replace="~{fragments/messages :: messages}">
+			<span>replace</span>
+		</nav>
+		<form th:action="@{/produto/produtoBusca}">
+			<div class="input-group mb-3">
 				<a th:href="@{/produto/produtoForm}"><button type="button"
-						class="btn btn-outline-secondary">Novo</button></a>&nbsp;&nbsp;
-				&nbsp;&nbsp; <input type="text" placeholder="Nome do produto"
-					class="form-control" id="termoBusca" aria-describedby="emailHelp">
-				&nbsp;&nbsp; <a th:href="@{/produto/produtoBusca(termo=AA)}">
-					<button class="btn btn-secondary btn-sm" id="btnBusca">
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</button>
-				</a>
+						class="btn btn-outline-secondary">Novo</button></a>&nbsp;&nbsp; <input
+					type="text" class="form-control" placeholder="Nome do produto"
+					name="termo" id="termo" size="50" th:value="${termo}" />
+				<button type="submit" class="btn btn-secondary btn-sm" id="btnBusca">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
 			</div>
-		</div>
-		<br />
-		<table class="table">
+		</form>
+	</div>
+	<br />
+	<div
+		style="width: 50%; display: flex; flex-direction: column; align-items: center; margin-left: 25%;"
+		th:switch="${#lists.size(produtoList)}">
+		<div th:case="'0'">Sem produtos!</div>
+		<table th:case="*" class="table">
 			<thead>
 				<tr>
 					<th scope="col">Id</th>
@@ -58,11 +64,16 @@
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
 					</a></td>
-					<td><a th:href="@{/produto/produtoDelete(id=${produto.id})}">
-							<button class="btn btn-danger btn-sm">
+					<td>
+						<form th:action="@{/produto/produtoDelete}" method="post">
+							<input type="hidden" class="form-control"
+								placeholder="Nome do produto" name="id" id="id" size="50"
+								th:value="${produto.id}" />
+							<button type="submit" class="btn btn-danger btn-sm">
 								<i class="fa-solid fa-trash-can"></i>
 							</button>
-					</a></td>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 		</table>

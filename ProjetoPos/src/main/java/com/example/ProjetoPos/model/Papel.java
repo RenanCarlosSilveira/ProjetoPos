@@ -3,13 +3,17 @@ package com.example.ProjetoPos.model;
 public enum Papel {
 	ADMIN("ADMIN"), MANAGER("GESTOR"), NORMAL("NORMAL");
 
-	private String papel;
+	private String nome;
 
-	Papel(String papel) {
-		this.papel = papel;
+	Papel(final String nome) {
+		this.nome = nome;
 	}
 
-	public String getPapel() {
-		return papel;
+	public String getNome() {
+		return this.nome;
+	}
+
+	public String getName() {
+		return this.name();
 	}
 }
