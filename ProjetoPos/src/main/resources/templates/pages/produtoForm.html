@@ -20,12 +20,15 @@
 	<br>
 	<div
 		style="width: 50%; display: flex; flex-direction: column; align-items: center; margin-left: 25%;">
+		<nav th:replace="~{fragments/messages :: messages}">
+			<span>replace</span>
+		</nav>
 		<form th:action="@{/produto/produtoSave}" th:object="${produtoDTO}"
 			method="POST" id="produtoSaveForm">
 			<input type="hidden" class="form-control" id="id" th:field="*{id}">
 			<div class="input-group mb-3">
 				<img
-					th:src="${produtoDTO.imagem} == null ? @{/images/no-image.png} : @{'data:image/png;base64,'+${produtoDTO.imagem}+'.jpg'}"
+					th:src="${produtoDTO.imagem} == null ? @{/images/no-image.png} : 'data:image/jpeg;base64,'+${produtoDTO.imagem}"
 					style="width: 12rem;" class="rounded mx-auto d-block">
 			</div>
 			<div class="input-group mb-3">
@@ -44,7 +47,7 @@
 					id="estoque" th:field="*{estoque}" required> &nbsp;&nbsp; <span
 					class="input-group-text" id="basic-addon1"> Área</span><select
 					class="form-control input-sm" id="area" style="width: 300px;"
-					tabindex="30" th:field="*{area}">
+					tabindex="30" th:field="*{area}" required>
 					<option text="" value=""></option>
 					<option th:each="area : ${areas}" th:text="${area.nome}"
 						th:value="${area.name}"</option>
@@ -52,21 +55,19 @@
 			</div>
 			<div class="input-group mb-3">
 				<input type="file" class="form-control"
-					aria-describedby="basic-addon1" id="imagemUpload" onchange="setValueImagem(this);"
-					required>
-				<input type="text" class="form-control"
-					aria-describedby="basic-addon1" id="imagem" th:field="*{imagem}"
-					required>
+					aria-describedby="basic-addon1" id="imagemUpload"
+					onchange="setValueImagem(this);"> <input type="hidden"
+					class="form-control" aria-describedby="basic-addon1" id="imagem"
+					th:field="*{imagem}">
 			</div>
 			<div class="input-group mb-3">
 				<span class="navbar-text"><a class="nav-link"
 					th:href="@{/produto/produtoList}"><button type="button"
 							class="btn btn-danger btn-sm">Voltar</button></a></span> <span
 					class="navbar-text"><button type="submit"
-							class="btn btn-success btn-sm">Salvar</button></span>
+						class="btn btn-success btn-sm">Salvar</button></span>
 			</div>
 		</form>
-
 	</div>
 </body>
 <script>
@@ -87,11 +88,11 @@ const getFileEmBase64 = (inputFile) => {
 
 async function setValueImagem(fileInput){
 	var file = fileInput.files[0];
-        if (file) {
-            anexoStr = await getFileEmBase64(file);
-            // remove o data:/;base64, do inicio da string em base 64
-            anexoStr = anexoStr.substr(anexoStr.indexOf(',') + 1);
-            document.getElementById('imagem').value = anexoStr;
+    if (file) {
+        anexoStr = await getFileEmBase64(file);
+        // remove o data:/;base64, do inicio da string em base 64
+        anexoStr = anexoStr.substr(anexoStr.indexOf(',') + 1);
+        document.getElementById('imagem').value = anexoStr;
         }
 }
 

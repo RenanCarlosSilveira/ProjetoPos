@@ -3,10 +3,13 @@ package com.example.ProjetoPos.model;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.Objects;
+
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import com.example.ProjetoPos.model.dto.ProdutoDTO;
 import com.example.ProjetoPos.util.ProjetoPosUtil;
+
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,19 +43,21 @@ public class Produto {
 
 	public Produto(final ProdutoDTO dto) {
 		super();
-		this.id = dto.getId();
-		this.nome = dto.getNome();
-		this.valor = dto.getValor();
-		this.area = Area.valueOf(dto.getArea());
-		this.estoque = dto.getEstoque();
-		this.imagem = StringUtils.isNotEmpty(dto.getImagem()) ? ProjetoPosUtil.getBlobFromBytes(dto.getImagem().getBytes()) : null;
+		id = dto.getId();
+		nome = dto.getNome();
+		valor = dto.getValor();
+		area = Area.valueOf(dto.getArea());
+		estoque = dto.getEstoque();
+		imagem = StringUtils.isNotEmpty(dto.getImagem())
+				? ProjetoPosUtil.getBlobFromBytes(Base64.decodeBase64(dto.getImagem()))
+				: null;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
 	public long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(final long id) {
@@ -61,7 +66,7 @@ public class Produto {
 
 	@Column(name = "nome")
 	public String getNome() {
-		return this.nome;
+		return nome;
 	}
 
 	public void setNome(final String nome) {
@@ -70,7 +75,7 @@ public class Produto {
 
 	@Column(name = "valor")
 	public long getValor() {
-		return this.valor;
+		return valor;
 	}
 
 	public void setValor(final long valor) {
@@ -79,7 +84,7 @@ public class Produto {
 
 	@Column(name = "estoque")
 	public long getEstoque() {
-		return this.estoque;
+		return estoque;
 	}
 
 	public void setEstoque(final long estoque) {
@@ -88,7 +93,7 @@ public class Produto {
 
 	@Column(name = "area")
 	public Area getArea() {
-		return this.area;
+		return area;
 	}
 
 	public void setArea(final Area area) {
@@ -97,7 +102,7 @@ public class Produto {
 
 	@Column(name = "imagem")
 	public Blob getImagem() {
-		return this.imagem;
+		return imagem;
 	}
 
 	public void setImagem(final Blob imagem) {
@@ -106,8 +111,8 @@ public class Produto {
 
 	@Transient
 	public String getImagemBase64() throws IOException, SQLException {
-		if (this.imagem != null) {
-			return Base64.getEncoder().encodeToString(ProjetoPosUtil.getBytesFromBlob(this.imagem));
+		if (imagem != null) {
+			return Base64.encodeBase64String(ProjetoPosUtil.getBytesFromBlob(imagem));
 		} else {
 			return "";
 		}
@@ -115,7 +120,7 @@ public class Produto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.id, this.nome);
+		return Objects.hash(id, nome);
 	}
 
 	@Override
@@ -127,11 +132,11 @@ public class Produto {
 			return false;
 		}
 		final Produto other = (Produto) obj;
-		return this.id == other.id && Objects.equals(this.nome, other.nome);
+		return id == other.id && Objects.equals(nome, other.nome);
 	}
 
 	@Override
 	public String toString() {
-		return "Produto [id=" + this.id + ", nome=" + this.nome + "]";
+		return "Produto [id=" + id + ", nome=" + nome + "]";
 	}
 }
