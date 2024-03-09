@@ -29,14 +29,14 @@ public class ProdutoController {
 
 	@GetMapping("/produtoList")
 	public ModelAndView produtoList() throws Exception {
-		final ModelAndView mav = new ModelAndView("/pages/produtoList.html");
+		final ModelAndView mav = new ModelAndView("/pages/produtoList");
 		mav.addObject("produtoList", produtoManager.findAll());
 		return mav;
 	}
 
 	@GetMapping("/produtoForm")
 	public ModelAndView produtoForm(final Long id) throws Exception {
-		final ModelAndView mav = new ModelAndView("/pages/produtoForm.html");
+		final ModelAndView mav = new ModelAndView("/pages/produtoForm");
 		mav.addObject("areas", Area.values());
 		if (id != null) {
 			final Produto produto = produtoManager.findProdutoById(id);
@@ -52,17 +52,17 @@ public class ProdutoController {
 			final RedirectAttributes attributes) throws Exception {
 		ModelAndView mav;
 		if (!produtoDTO.isValid()) {
-			mav = new ModelAndView("/pages/produtoForm.html");
+			mav = new ModelAndView("/pages/produtoForm");
 			mav.addObject("error", "Verifique as informacoes!");
 		}
 		try {
-			mav = new ModelAndView("/pages/produtoList.html");
+			mav = new ModelAndView("/pages/produtoList");
 			final Produto produto = new Produto(produtoDTO);
 			produtoManager.saveProduto(produto);
 			mav.addObject("produtoList", produtoManager.findAll());
 			mav.addObject("message", "Produto salvo com sucesso!");
 		} catch (final Exception e) {
-			mav = new ModelAndView("/pages/produtoForm.html");
+			mav = new ModelAndView("/pages/produtoForm");
 			mav.addObject("error", "Ocorreu um erro!");
 		}
 		return mav;
@@ -70,7 +70,7 @@ public class ProdutoController {
 
 	@PostMapping("/produtoDelete")
 	public ModelAndView produtoDelete(final Long id) throws Exception {
-		final ModelAndView mav = new ModelAndView("/pages/produtoList.html");
+		final ModelAndView mav = new ModelAndView("/pages/produtoList");
 		final Produto produto = produtoManager.findProdutoById(id);
 		if (produto != null) {
 			produtoManager.deleteProduto(produto);
@@ -83,7 +83,7 @@ public class ProdutoController {
 
 	@RequestMapping("/produtoBusca")
 	public ModelAndView produtoBusca(@Param("termo") String termo) throws Exception {
-		final ModelAndView mav = new ModelAndView("/pages/produtoList.html");
+		final ModelAndView mav = new ModelAndView("/pages/produtoList");
 		List<Produto> produtoList = new ArrayList<>();
 		if (!StringUtils.isEmpty(termo)) {
 			produtoList = produtoManager.findByNomeContainingIgnoreCase(termo);

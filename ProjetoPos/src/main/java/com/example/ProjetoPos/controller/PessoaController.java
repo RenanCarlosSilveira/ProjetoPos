@@ -11,14 +11,12 @@ public class PessoaController {
 
 	@GetMapping("/pessoaForm")
 	public String pessoaForm(final Model model) {
-		model.addAttribute("appName", "PEI");
-		return "/pages/pessoaForm.html";
+		return "/pages/pessoaForm";
 	}
 
 	@GetMapping("/pessoaList")
 	public String pessoaList(final Model model) {
-		model.addAttribute("appName", "PEI");
-		return "/pages/pessoaList.html";
+		return "/pages/pessoaList";
 	}
 }
 

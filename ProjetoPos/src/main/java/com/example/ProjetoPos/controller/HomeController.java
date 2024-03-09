@@ -12,8 +12,7 @@ public class HomeController {
 
 	@GetMapping("/homeForm")
 	public ModelAndView novo(final Model model) {
-		final ModelAndView mv = new ModelAndView("/pages/home.html");
-		mv.addObject("PAR1", "AQUI");
+		final ModelAndView mv = new ModelAndView("/pages/home");
 		return mv;
 	}
 }

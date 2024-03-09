@@ -11,13 +11,11 @@ public class UsuarioController {
 
 	@GetMapping("/usuarioForm")
 	public String usuarioForm(final Model model) {
-		model.addAttribute("appName", "PEI");
-		return "/pages/usuarioForm.html";
+		return "/pages/usuarioForm";
 	}
 
 	@GetMapping("/usuarioList")
 	public String usuarioList(final Model model) {
-		model.addAttribute("appName", "PEI");
-		return "/pages/usuarioList.html";
+		return "/pages/usuarioList";
 	}
 }
