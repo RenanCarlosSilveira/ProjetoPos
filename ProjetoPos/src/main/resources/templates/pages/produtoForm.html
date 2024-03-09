@@ -34,17 +34,19 @@
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="basic-addon1">Nome</span> <input
 					type="text" class="form-control" aria-describedby="basic-addon1"
-					id="nome" th:field="*{nome}" required>
+					id="nome" th:field="*{nome}" maxlength="60" required>
 			</div>
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="basic-addon1">Valor</span> <input
 					type="text" class="form-control" aria-describedby="basic-addon1"
-					id="valor" th:field="*{valor}" required>
+					id="valor" th:field="*{valor}" maxlength="10"
+					onkeyup="mascaraNumero(this)" required>
 			</div>
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="basic-addon1">Estoque</span> <input
 					type="text" class="form-control" aria-describedby="basic-addon1"
-					id="estoque" th:field="*{estoque}" required> &nbsp;&nbsp; <span
+					id="estoque" th:field="*{estoque}" maxlength="10"
+					onkeyup="mascaraNumero(this)" required> &nbsp;&nbsp; <span
 					class="input-group-text" id="basic-addon1"> Área</span><select
 					class="form-control input-sm" id="area" style="width: 300px;"
 					tabindex="30" th:field="*{area}" required>
@@ -61,11 +63,9 @@
 					th:field="*{imagem}">
 			</div>
 			<div class="input-group mb-3">
-				<span class="navbar-text"><a class="nav-link"
-					th:href="@{/produto/produtoList}"><button type="button"
-							class="btn btn-danger btn-sm">Voltar</button></a></span> <span
-					class="navbar-text"><button type="submit"
-						class="btn btn-success btn-sm">Salvar</button></span>
+				<a th:href="@{/produto/produtoList}"><button type="button"
+						class="btn btn-danger btn-sm">Voltar</button></a> &nbsp;&nbsp; 
+				<button type="submit" class="btn btn-success btn-sm">Salvar</button>
 			</div>
 		</form>
 	</div>
@@ -94,6 +94,10 @@ async function setValueImagem(fileInput){
         anexoStr = anexoStr.substr(anexoStr.indexOf(',') + 1);
         document.getElementById('imagem').value = anexoStr;
         }
+}
+
+function mascaraNumero(campo){
+	campo.value=campo.value.replace(/\D/g, "");                  //Remove tudo o que nï¿½o ï¿½ digito
 }
 
 </script>
