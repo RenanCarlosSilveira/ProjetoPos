@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Projeto Dev :: Registro</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" />
+<link rel="icon" th:href="@{/image/favicon.png}" />
+<!-- Icons fontawesome -->
+<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+	crossorigin="anonymous" rel="stylesheet" />
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style-login.css(v=${version})}" rel="stylesheet" />
+</head>
+<body>
+	<section class="form-signin" layout:fragment="corpo">
+		<main role="main">
+			<div align="center">
+				<div class="album py-12 ">
+					<div class="container" id="cadastro">
+
+						<div class="d-flex justify-content-center">
+
+							<div>
+								<img class="d-block mx-auto" th:src="@{/image/logo-unoesc.png}"
+									width="72" height="72">
+								<div class="container">
+									<h1 class="jumbotron-heading"></h1>
+									<p class="lead text-muted">Novo Usuário</p>
+								</div>
+
+								<form
+									th:action="${usuario.id == null} ? @{/registros/salvar} : @{/registro}"
+									th:object="${usuario}" method="POST" class="was-validated">
+									<p class="text-muted"></p>
+									<div th:if="${alerta != null}"
+										th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
+										role="alert">
+										<h4 th:text="${titulo}" class="alert-heading"></h4>
+										<p th:text="${texto}"></p>
+										<hr>
+										<p class="mb-0">
+											<small th:text="${subtexto}"></small>
+										</p>
+									</div>
+
+
+									<div class="mb-3">
+										<div class="form-label-group">
+											<input type="email" class="form-control" id="email2"
+												th:field="*{email}" placeholder="Repita seu Email"
+												aria-describedby="validationTooltipUsernamePrepend" required />
+											<label for="email2">Email</label>
+											<div class="invalid-feedback">Email é requerido.</div>
+										</div>
+									</div>
+
+									<div class="mb-3">
+										<div class="form-label-group">
+											<input type="password" class="form-control" id="senha"
+												maxlength="8" th:field="*{senha}"
+												placeholder="Insira sua senha de acesso" required /> <label
+												for="senha">Senha</label>
+											<div class="invalid-feedback">Senha é requerida para
+												confirmar a operação.</div>
+										</div>
+									</div>
+
+
+
+									<input type="hidden" th:field="*{id}">
+									<div class="d-grid gap-2 col-20 mx-auto">
+										<button class="btn btn-lg btn-success btn-block" type="submit">Salvar</button>
+										<hr>
+										<a href="/login">
+											<button class="btn btn-secondary" type="button">Voltar</button>
+										</a>
+									</div>
+
+									<p class="mt-5 mb-3 text-muted text-center">Desafio DEV
+										Unoesc - Renan Silveira &copy; 2022</p>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</section>
+</body>
+</html>
