@@ -1,63 +1,52 @@
 package com.example.ProjetoPos.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "USUARIO")
 public class Usuario {
 
-	private long id;
-	private String login;
-	private String password;
-	private Papel role;
-	private Pessoa person;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String nome;
+	private String senha;
 
 	public Usuario() {
 	}
 
-	public Usuario(long id, String login, String password, Papel role, Pessoa person) {
+	public Usuario(String nome, String senha) {
 		super();
-		this.id = id;
-		this.login = login;
-		this.password = password;
-		this.role = role;
-		this.person = person;
+		this.nome = nome;
+		this.senha = senha;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getSenha() {
+		return senha;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Papel getRole() {
-		return role;
-	}
-
-	public void setRole(Papel role) {
-		this.role = role;
-	}
-
-	public Pessoa getPerson() {
-		return person;
-	}
-
-	public void setPerson(Pessoa person) {
-		this.person = person;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }
