@@ -1,14 +1,11 @@
 package com.example.ProjetoPos.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ProjetoPos.model.Usuario;
 import com.example.ProjetoPos.repository.UsuarioRepository;
@@ -17,30 +14,29 @@ import com.example.ProjetoPos.repository.UsuarioRepository;
 public class UsuarioManager implements UserDetailsService {
 
 	@Autowired
-	private UsuarioRepository repository;
-
-	@Transactional(readOnly = true)
-	public Usuario buscarPorEmail(String email) {
-		return repository.findByEmail(email);
-	}
+	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
-	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		final Usuario usuario = buscarPorEmail(username);
-		return new User(usuario.getEmail(), usuario.getSenha(), AuthorityUtils.NO_AUTHORITIES);
+		final Usuario usuario = usuarioRepository.findByNome(username);
+		if (usuario == null) {
+			throw new UsernameNotFoundException("Usuário não encontrado: " + username);
+		}
+		return org.springframework.security.core.userdetails.User.withUsername(username).password(usuario.getSenha())
+				.roles("Usuario").build();
 	}
 
-	@Transactional(readOnly = false)
-	public void salvarUsuario(Usuario usuario) throws Exception {
-		final String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
-		usuario.setSenha(crypt);
-		repository.save(usuario);
+	public void save(Usuario user) {
+		final String senhaCriptografada = passwordEncoder.encode(user.getSenha());
+		user.setSenha(senhaCriptografada);
+		usuarioRepository.save(user);
 	}
 
-	@Transactional(readOnly = true)
-	public Usuario buscarPorId(Long id) {
-
-		return repository.findById(id).get();
+	public boolean autenticarUsuario(String username, String senha) {
+		final UserDetails userDetails = loadUserByUsername(username);
+		final String test = passwordEncoder.encode(senha);
+		return passwordEncoder.matches(senha, userDetails.getPassword());
 	}
 }

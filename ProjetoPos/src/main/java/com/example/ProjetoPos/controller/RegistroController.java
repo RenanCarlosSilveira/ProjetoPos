@@ -26,23 +26,22 @@ public class RegistroController {
 		return "/pages/registro";
 	}
 
-
 	@PostMapping("/salvar")
 	public String salvar(@ModelAttribute Usuario usuario, ModelMap model, BindingResult result) {
 		model.addAttribute("usuario", usuario);
 		try {
-			usuariomanager.salvarUsuario(usuario);
+			usuariomanager.save(usuario);
 			model.addAttribute("alerta", " ");
 			model.addAttribute("titulo", "Usuário Cadastrado!");
 			model.addAttribute("texto", " ");
 			model.addAttribute("subtexto", "Seu acesso está diponível, retorne à página de login.");
-			return "registro";
+			return "/pages/registro";
 		} catch (final Exception e) {
 			model.addAttribute("alerta", "erro");
 			model.addAttribute("titulo", "Usuario existente!");
 			model.addAttribute("texto", "Digite informações diferentes!");
 			model.addAttribute("subtexto", "");
-			return "registro";
+			return "/pages/registro";
 		}
 	}
 
